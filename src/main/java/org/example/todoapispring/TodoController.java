@@ -1,9 +1,8 @@
 package org.example.todoapispring;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +29,16 @@ public class TodoController {
      * what getmapping annotations does , whenever there is get request on the particular routes
      * it going to perform the get request
      * its used to read the todos
+     * @GetMapping("/todos")
+     *     public List<Todo>  getTodos() {
+     *         return todos;
+     *     }
      */
-    @GetMapping("/todos")
-    public List<Todo>  getTodos() {
-        return todos;
-    }
 
+    @GetMapping("/todos")
+    public ResponseEntity<List<Todo>> getTodo(){
+        return ResponseEntity.ok(todos);
+    }
     /**
      * it is used to do add information in the todo
      * as we can see that there is sensitive data in the todo as like userid therefore we have to
@@ -50,8 +53,19 @@ public class TodoController {
      * conventation.
      */
     @PostMapping("/todos")
-    public Todo createTodo(@RequestBody Todo newTodo){
+    /**
+     * first way
+     *  @ResponseStatus(HttpStatus.CREATED)
+     *     public Todo createTodo(@RequestBody Todo newTodo){
+     *         todos.add(newTodo);
+     *         return newTodo;
+     *     }
+     */
+
+    public ResponseEntity<Todo> createTodo(@RequestBody Todo newTodo){
         todos.add(newTodo);
-        return newTodo;
+        return ResponseEntity.status(HttpStatus.CREATED).body(newTodo);
     }
+
+
 }
