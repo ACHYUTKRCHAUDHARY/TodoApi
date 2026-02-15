@@ -67,5 +67,14 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newTodo);
     }
 
+    @GetMapping("/todos/{todos}")
+    public ResponseEntity<Todo> getTodoById(@PathVariable Long todoId){
+        for(Todo todo:todos){
+            if(todo.getId()==todoId){
+                return ResponseEntity.ok(todo);
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }
