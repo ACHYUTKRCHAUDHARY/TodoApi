@@ -12,11 +12,15 @@ import java.util.List;
  * rest controller basically collecting the request.
  * whatever value going to be returned in the functions, it directly goin to be returned
  * in the response body of https request life cycle
- * it automatically going to do the tast of serialisation accordingly.
+ * it automatically going to do the task of serialisation accordingly.
  * if we are returning any java objects , its task is to do directly convert in the actual
  *  data type in which it is needed basically means response data type , like json type .
   */
 @RestController
+/**
+ * cause of this , we can make and do the versioning of api
+ */
+@RequestMapping("api/v1/todos")
 public class TodoController {
     private static List<Todo> todos;
     public TodoController() {
@@ -35,7 +39,7 @@ public class TodoController {
      *     }
      */
 
-    @GetMapping("/todos")
+    @GetMapping
     public ResponseEntity<List<Todo>> getTodo(){
         return ResponseEntity.ok(todos);
     }
@@ -51,9 +55,6 @@ public class TodoController {
      * and it is the rest api convention to return something
      * if we are doing thorugh void function still is true , but it will not following rest
      * conventation.
-     */
-    @PostMapping("/todos")
-    /**
      * first way
      *  @ResponseStatus(HttpStatus.CREATED)
      *     public Todo createTodo(@RequestBody Todo newTodo){
@@ -61,13 +62,13 @@ public class TodoController {
      *         return newTodo;
      *     }
      */
-
+    @PostMapping
     public ResponseEntity<Todo> createTodo(@RequestBody Todo newTodo){
         todos.add(newTodo);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTodo);
     }
 
-    @GetMapping("/todos/{todos}")
+    @GetMapping("/{todos}")
     public ResponseEntity<Todo> getTodoById(@PathVariable Long todoId){
         for(Todo todo:todos){
             if(todo.getId()==todoId){
