@@ -23,11 +23,19 @@ import java.util.List;
 @RequestMapping("api/v1/todos")
 public class TodoController {
     private static List<Todo> todos;
-    public TodoController() {
+//    its is the composition according to java , we are using the other class objects into our class
+    private static TodoService todoService;
+//    the value passed in the constructor is the doing
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
         todos = new ArrayList<>();
         todos.add(new Todo(1,false,"Todo 1",1));
         todos.add(new Todo(2,true,"Todo 2",2));
     }
+
+/**
+ * in matter to use ioc we have injects the depending injection
+ */
 
     /**
      * what getmapping annotations does , whenever there is get request on the particular routes
@@ -39,8 +47,18 @@ public class TodoController {
      *     }
      */
 
+    /**
+     * @RequestParam is used for the query params
+     * are required mandatory request and query params is not mandatory therefore
+     * @RequestParam(required=false) cause of this is will get optional
+     * @PathVariable is used for the path params
+     * @param isComplete
+     * @return
+     */
+
     @GetMapping
-    public ResponseEntity<List<Todo>> getTodo(){
+    public ResponseEntity<List<Todo>> getTodo(@RequestParam(required =false,defaultValue="true") Boolean isComplete){
+        System.out.println("Incoming query param"+isComplete);
         return ResponseEntity.ok(todos);
     }
     /**
