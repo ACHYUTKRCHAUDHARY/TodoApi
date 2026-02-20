@@ -1,5 +1,7 @@
 package org.example.todoapispring;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +26,13 @@ import java.util.List;
 public class TodoController {
     private static List<Todo> todos;
 //    its is the composition according to java , we are using the other class objects into our class
+    @Autowired
+    @Qualifier("another")
     private static TodoService todoService;
 //    the value passed in the constructor is the doing
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
+//    TodoService todoService
+    public TodoController( ) {
+//        this.todoService = todoService;
         todos = new ArrayList<>();
         todos.add(new Todo(1,false,"Todo 1",1));
         todos.add(new Todo(2,true,"Todo 2",2));
