@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service("fake")
 public class FakeTodoService implements TodoService {
-    @Override
+    @TimeMonitor
     public String something(){
         return "something";
     }

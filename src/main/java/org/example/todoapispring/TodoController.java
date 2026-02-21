@@ -26,13 +26,17 @@ import java.util.List;
 public class TodoController {
     private static List<Todo> todos;
 //    its is the composition according to java , we are using the other class objects into our class
-    @Autowired
-    @Qualifier("another")
-    private static TodoService todoService;
+
+    private  TodoService todoService; // another todoservice
+    private  TodoService todoService2; // fake todoservice
 //    the value passed in the constructor is the doing
-//    TodoService todoService
-    public TodoController( ) {
-//        this.todoService = todoService;
+    public TodoController(
+            @Qualifier("another")TodoService todoService,
+            @Qualifier("fake")TodoService todoService2
+    )
+    {
+        this.todoService = todoService;
+        this.todoService2 = todoService2;
         todos = new ArrayList<>();
         todos.add(new Todo(1,false,"Todo 1",1));
         todos.add(new Todo(2,true,"Todo 2",2));
@@ -63,7 +67,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<List<Todo>> getTodo(@RequestParam(required =false,defaultValue="true") Boolean isComplete){
-        System.out.println("Incoming query param"+isComplete);
+        System.out.println("Incoming query param"+isComplete + " "+ this.todoService2.something());
         return ResponseEntity.ok(todos);
     }
     /**
